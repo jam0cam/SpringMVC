@@ -1,0 +1,10 @@
+CREATE TABLE person (
+        id int auto_increment primary key,
+         name VARCHAR(100)
+       );
+
+
+insert into person
+(name)
+values
+('jia');
