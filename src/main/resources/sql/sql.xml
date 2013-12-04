@@ -10,7 +10,41 @@
         <result property="id" column="id" />
     </resultMap>
 
+    <resultMap id="playerMap" class="com.example.model.Player">
+        <result property="name" column="name" />
+        <result property="id" column="player_id" />
+        <result property="email" column="email" />
+        <result property="password" column="password" />
+        <result property="avatarUrl" column="avatar_url" />
+    </resultMap>
+
+    <resultMap id="matchMap" class="com.example.model.Match">
+        <result property="id" column="match_id" />
+        <result property="p1.id" column="p1_id" />
+        <result property="p2.id" column="p2_id" />
+        <result property="p1Score" column="p1_score" />
+        <result property="p2Score" column="p2_score" />
+        <result property="date" column="date" />
+    </resultMap>
+
     <select id="getById" parameterClass="java.lang.String" resultMap="sql.personMap">
         select * from person where id = #id#
     </select>
+
+    <select id="getPlayerById" parameterClass="java.lang.String" resultMap="sql.playerMap">
+        select * from player where player_id = #id#
+    </select>
+
+    <select id="getPlayers"  resultMap="sql.playerMap">
+        select * from player
+    </select>
+
+    <select id="getMatchesByPlayer"  resultMap="sql.matchMap">
+        select * from matches where p1_id = 1 OR  p2_id = #playerId#;
+    </select>
+
+
+
+
+
 </sqlMap>
