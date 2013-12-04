@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://www.springframework.org/schema/security"
+            xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+    <http pattern="/.*service.*" path-type="regex" security="none"/>
+    <http auto-config="true" path-type="regex">
+        <intercept-url pattern="/profile.*" access="ROLE_USER"/>
+
+        <form-login login-page="/"
+                    login-processing-url="/login"
+                    username-parameter="email"
+                    password-parameter="password"
+                    authentication-failure-url="/failedLogin?error"
+                    default-target-url="/home"/>
+        <logout logout-url="/logout"
+                logout-success-url="/logoutSuccess"/>
+    </http>
+
+
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="myAuthenticationProvider"/>
+    </authentication-manager>
+
+    <bean:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+</bean:beans>

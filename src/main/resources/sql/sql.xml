@@ -20,8 +20,8 @@
 
     <resultMap id="matchMap" class="com.example.model.Match">
         <result property="id" column="match_id" />
-        <result property="p1.id" column="p1_id" />
-        <result property="p2.id" column="p2_id" />
+        <result property="p1" column="p1_id" select="sql.getPlayerById" />
+        <result property="p2" column="p2_id" select="sql.getPlayerById" />
         <result property="p1Score" column="p1_score" />
         <result property="p2Score" column="p2_score" />
         <result property="date" column="date" />
@@ -39,8 +39,41 @@
         select * from player
     </select>
 
+    <select id="getByEmail"  resultMap="sql.playerMap">
+        select * from player where email = #email#
+    </select>
+
+    <select id="getByEmailAndPassword" parameterClass="java.util.Map" resultMap="sql.playerMap">
+        select * from player where email = #email# and password = md5(#password#)
+    </select>
+
+    <insert id="insertRegistration" parameterClass="com.example.model.Player">
+        insert into player
+        (name, email, password, avatar_url)
+        values
+        (#name#, #email#, md5(#password#), #avatarUrl#)
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertMatch" parameterClass="com.example.model.Match">
+        insert into matches
+        (p1_id, p2_id, p1_score, p2_score, date)
+        values
+        (#p1.id#, #p2.id#, #p1Score#, #p2Score#, #date#)
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+
     <select id="getMatchesByPlayer"  resultMap="sql.matchMap">
-        select * from matches where p1_id = 1 OR  p2_id = #playerId#;
+        select * from matches where p1_id = 1 OR  p2_id = #playerId#
+    </select>
+
+    <select id="getMatchesByPlayerByDateDesc"  resultMap="sql.matchMap">
+        select * from matches where p1_id = #playerId# OR  p2_id = #playerId# order by date desc
     </select>
 
 

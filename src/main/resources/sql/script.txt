@@ -9,15 +9,13 @@ insert into person
 values
 ('jia');
 
-
 CREATE TABLE player (
 	player_id int not null auto_increment primary key,
 	name varchar(16) not null,
 	email varchar(32) not null,
 	password varchar(32) not null,
-	avatar_url varchar(32) not null
+	avatar_url varchar(32) null
 );
-
 
 
 CREATE TABLE matches (

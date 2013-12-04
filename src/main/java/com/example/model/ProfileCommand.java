@@ -1,0 +1,44 @@
+package com.example.model;
+
+import java.util.List;
+
+/**
+ * User: jitse
+ * Date: 12/4/13
+ * Time: 2:16 PM
+ */
+public class ProfileCommand {
+
+    private Player player;
+    private Stats stats;
+
+    /**
+     * matches are setup in a way that p1 is always the passed in player.
+     */
+    private List<Match> matches;
+
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
+}

@@ -62,4 +62,14 @@ public class Match extends BaseObject {
     public void setDateString(String dateString) {
         this.dateString = dateString;
     }
+
+    public void swapPlayer() {
+        Player temp = p2;
+        p2 = p1;
+        p1 = temp;
+
+        int score = p2Score;
+        p2Score = p1Score;
+        p1Score = score;
+    }
 }

@@ -1,17 +1,12 @@
 package com.example.controller;
 
-import com.example.dao.Dao;
-import com.example.model.LeaderBoardItem;
-import com.example.model.Match;
-import com.example.model.Player;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.model.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,9 +16,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/tt")
-public class TTController {
-    @Autowired
-    Dao dao;
+public class TTController extends BaseController{
 
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -44,6 +37,53 @@ public class TTController {
             p.setPassword("");
         }
 
+        return rval;
+    }
+
+    @RequestMapping(value= "/saveMatch", method=RequestMethod.POST)
+    @ResponseBody
+    public String saveMatch(@RequestBody Match match) {
+
+        if (StringUtils.hasText(match.getDateString())){
+            match.setDate(new Date(match.getDateString()));
+        }
+
+        dao.insertMatch(match);
+        return match.getId();
+    }
+
+
+    @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ProfileCommand getProfile(@PathVariable("id") String id) {
+        ProfileCommand rval = new ProfileCommand();
+
+        Player player = dao.getPlayerById(id);
+
+        List<Match> matches = dao.getMatchesByPlayerByDateDesc(id);
+
+        Stats stats = new Stats();
+
+        for (Match match : matches) {
+            if (!match.getP1().getId().equals(id)) {
+                //we want to swap the info and always make p1 = player passed in
+                match.swapPlayer();
+            }
+            match.setDateString(dateFormatter.format(match.getDate()));
+
+            stats.setGameWins(stats.getGameWins() + match.getP1Score());
+            stats.setGameLosses(stats.getGameLosses() + match.getP2Score());
+
+            if (match.getP1Score() > match.getP2Score()){
+                stats.setMatchWins(stats.getMatchWins() + 1);
+            } else {
+                stats.setMatchLosses(stats.getMatchLosses() + 1);
+            }
+        }
+
+        rval.setMatches(matches);
+        rval.setStats(stats);
+        rval.setPlayer(player);
         return rval;
     }
 

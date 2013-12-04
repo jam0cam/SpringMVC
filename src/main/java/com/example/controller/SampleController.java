@@ -2,13 +2,13 @@ package com.example.controller;
 
 import com.example.dao.Dao;
 import com.example.model.Person;
+import com.example.postageapp.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  */
@@ -19,16 +19,19 @@ public class SampleController {
     @Autowired
     Dao dao;
 
+    @Autowired
+    MailSender mailSender;
+
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     public @ResponseBody Person getById(@PathVariable("id") String id) {
         return dao.getByResultId(id);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView home () {
-        Person cmd = dao.getByResultId("1");
+    public @ResponseBody String home () {
+        mailSender.sendMail("jitse@zappos.com", "test email", "test body");
 
-        return new ModelAndView("index", "command", cmd);
+        return "email sent";
     }
 
 }
