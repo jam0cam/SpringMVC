@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="pageTitle" value="Lord of the Ping - Table Tennis Tracker" scope="request"/>
+<c:set var="pageTitle" value="Lord of the Ping - Profile" scope="request"/>
 <c:set var="pageType" value="profile" scope="request"/>
 
 <jsp:include page="./header.jsp"/>

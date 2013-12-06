@@ -55,6 +55,10 @@ public class TTController extends BaseController{
     @RequestMapping(value= "/signin", method=RequestMethod.POST)
     @ResponseBody
     public Player signin(@RequestBody RegisterUser player) {
+        if (!StringUtils.hasText(player.getEmail()) || !StringUtils.hasText(player.getPassword())) {
+            throw new InvalidUserNameOrPasswordException();
+        }
+
         Player p = dao.getByEmailAndPassword(player.getEmail(), player.getPassword());
         if (p==null) {
             throw new InvalidUserNameOrPasswordException();

@@ -1,11 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="pageTitle" value="TTT - Register" scope="request"/>
+<c:set var="pageTitle" value="Lord of the Ping - Register" scope="request"/>
 
 <jsp:include page="./header.jsp"/>
 <div class="container">
     <form:form class="form-signin"  action="/register"  method="post" commandName="command" >
+        <form:errors path="*" element="div" cssClass="alert alert-error"/>
         <h2>Register</h2>
         <form:input path="name" type="text" class="form-control" placeholder="First & Last Name" required="" autofocus=""/>
         <form:input path="email" type="text" class="form-control" placeholder="Email Address" required=""/>

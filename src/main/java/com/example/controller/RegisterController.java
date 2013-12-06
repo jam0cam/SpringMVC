@@ -5,6 +5,7 @@ import com.example.model.Player;
 import com.example.security.MyUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +38,20 @@ public class RegisterController
     @RequestMapping(method=RequestMethod.POST)
     public ModelAndView onSubmit(@ModelAttribute("command")Player command, BindingResult result) {
 
+        if (!StringUtils.hasText(command.getName())) {
+            result.rejectValue("email", "name.required");
+            return new ModelAndView("register", "command", command);
+        } else if (!StringUtils.hasText(command.getEmail())) {
+            result.rejectValue("email", "email.required");
+            return new ModelAndView("register", "command", command);
+        } else if (!StringUtils.hasText(command.getPassword())) {
+            result.rejectValue("email", "password.required");
+            return new ModelAndView("register", "command", command);
+        }
+
         if (!result.hasErrors()){
-
             Util.trimRegister(command);
-
             dao.insertRegistration(command);
-
             myUserContext.authenticateAndSetUser(command);
             return new ModelAndView("redirect:/home");
         } else {

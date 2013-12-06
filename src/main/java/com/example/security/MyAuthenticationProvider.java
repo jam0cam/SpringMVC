@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -32,6 +33,11 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
         String email = token.getName();
         String password = token.getCredentials().toString();
+
+        if (!StringUtils.hasText(email) || !StringUtils.hasText(password)) {
+            //missing fields entered.
+            throw new BadCredentialsException("Invalid username/password");
+        }
 
         Player user =  dao.getByEmailAndPassword(email, password);
 

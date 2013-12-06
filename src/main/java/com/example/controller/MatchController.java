@@ -65,7 +65,7 @@ public class MatchController extends BaseController {
     ModelAndView submit (@ModelAttribute("command")MatchCommand command, BindingResult result) {
 
         if (!StringUtils.hasText(command.getEmail())) {
-            result.rejectValue("email", "email.required");
+            result.rejectValue("email", "opponent.required");
             return new ModelAndView("match", "command", command);
         }
 
