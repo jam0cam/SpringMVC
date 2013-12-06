@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="pageTitle" value="TTT - Table Tennis Tracker" scope="request"/>
+<c:set var="pageTitle" value="Lord of the Ping - Table Tennis Tracker" scope="request"/>
 <c:set var="pageType" value="profile" scope="request"/>
 
 <jsp:include page="./header.jsp"/>
@@ -95,7 +95,7 @@
                     <c:forEach var="item" items="${command.matches}" varStatus="loop">
                         <tr>
                             <td>${item.dateString}</td>
-                            <td>${item.p2.name}</td>
+                            <td><a href="/profile/${item.p2.id}">${item.p2.name}</a></td>
                             <td>
                                 <c:choose>
                                     <c:when test="${item.status=='W'}">

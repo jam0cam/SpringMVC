@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.exception.EmailExistsException;
 import com.example.exception.InvalidUserNameOrPasswordException;
 import com.example.model.*;
+import com.example.postageapp.MailSender;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/tt")
 public class TTController extends BaseController{
+
+    @Autowired
+    private MailSender mailSender;
 
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -75,10 +80,22 @@ public class TTController extends BaseController{
     @RequestMapping(value= "/confirmMatch", method=RequestMethod.POST)
     @ResponseBody
     public HttpResponse confirmMatch(@RequestBody ConfirmMatch confirmation) {
+        Match pendingMatch = dao.getPendingMatch(confirmation.getPendingId());
+        if (pendingMatch == null) {
+            return new HttpResponse(200, "OK");
+        }
 
         if (confirmation.isConfirmed()){
-
+            dao.deletePending(confirmation.getPendingId());
+            dao.insertMatch(pendingMatch);
         } else {
+            //on a decline, we send an email to player "1" notifying that player 2 declined.
+            Player player1 = dao.getPlayerById(pendingMatch.getP1().getId());
+            Player player2 = dao.getPlayerById(pendingMatch.getP2().getId());
+
+            if (player1 != null && player2 != null) {
+                mailSender.sendMail(player1.getEmail(), "match declined", "Your match with " + player2.getName() + " has been declined.");
+            }
             dao.declineMatch(confirmation.getPendingId());
         }
 

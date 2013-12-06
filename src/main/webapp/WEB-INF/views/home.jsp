@@ -23,7 +23,7 @@
                 <c:forEach var="item" items="${command}" varStatus="loop">
                     <tr>
                         <td>${loop.index+1}</td>
-                        <td>${item.player.name}</td>
+                        <td><a href="/profile/${item.player.id}">${item.player.name}</a></td>
                         <td>${item.matchWins}</td>
                         <td>${item.matchLosses}</td>
                     </tr>

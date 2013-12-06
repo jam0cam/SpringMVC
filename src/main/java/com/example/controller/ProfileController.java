@@ -22,7 +22,7 @@ public class ProfileController extends BaseController{
     @Autowired
     TTController ttController;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/myProfile", method = RequestMethod.GET)
     public @ResponseBody
     ModelAndView main () {
         ProfileCommand command = ttController.getProfile(myUserContext.getCurrentUser().getId());

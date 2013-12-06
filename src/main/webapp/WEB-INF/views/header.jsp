@@ -58,10 +58,19 @@
 
                 <c:choose>
                     <c:when test="${pageType=='profile'}">
-                        <li class="active"><a href="/profile">Profile</a></li>
+                        <li class="active"><a href="/profile/myProfile">Profile</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/profile/myProfile">Profile</a></li>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:choose>
+                    <c:when test="${pageType=='inbox'}">
+                        <li class="active"><a href="/inbox">Inbox</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="/inbox">Inbox</a></li>
                     </c:otherwise>
                 </c:choose>
 

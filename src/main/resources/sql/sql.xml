@@ -90,8 +90,16 @@
     </select>
 
     <select id="getPendingMatchesByPlayer" resultMap="sql.matchMap">
-        select pending_id as match_id, a.* from pending a where status = 'pending' AND (p1_id = #playerId# OR  p2_id = #playerId#)
+        select pending_id as match_id, a.* from pending a where status = 'pending' AND p2_id = #playerId#
     </select>
+
+    <select id="getPendingMatch" resultMap="sql.matchMap">
+        select pending_id as match_id, a.* from pending a where pending_id = #pendinId#
+    </select>
+
+    <delete id="deletePending" parameterClass="java.lang.String">
+        delete from pending where pending_id = #pendingId#
+    </delete>
 
 
     <select id="getMatchesByPlayerByDateDesc"  resultMap="sql.matchMap">

@@ -27,7 +27,7 @@
     </form:form>
     <div class="secondary-block">
         <p class="text-center secondary-action"><span>or</span></p>
-        <a href="register.html" class="btn btn-lg btn-default btn-block">Register</a>
+        <a href="/register" class="btn btn-lg btn-default btn-block">Register</a>
     </div>
 </div> <!-- /container -->
 

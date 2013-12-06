@@ -15,7 +15,6 @@ public class Player extends BaseObject {
     private String name;
     private String avatarUrl;
 
-    @JsonIgnore
     public String getEmail() {
         return email;
     }

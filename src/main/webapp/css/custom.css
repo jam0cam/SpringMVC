@@ -120,5 +120,9 @@ table .label {
     background: #F7464A;
 }
 
-  
-  
+
+td .img-circle {
+    height: 48px;
+    width: 48px;
+}
+

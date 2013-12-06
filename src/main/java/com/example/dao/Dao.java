@@ -11,7 +11,6 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class Dao implements InitializingBean {
         Player p = (Player)sqlMapClientTemplate.queryForObject("sql.getPlayerById", id);
         try {
             p.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(p.getEmail()) + ".png");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -68,7 +67,7 @@ public class Dao implements InitializingBean {
 
         try {
             rval.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(rval.getEmail()) + ".png");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -79,11 +78,15 @@ public class Dao implements InitializingBean {
         sqlMapClientTemplate.update("sql.declineMatch", pendingId);
     }
 
+    public void deletePending(String pendingId) {
+        sqlMapClientTemplate.delete("sql.deletePending", pendingId);
+    }
+
     public Player getByEmail(String email) {
         Player rval = (Player)sqlMapClientTemplate.queryForObject("sql.getByEmail", email);
         try {
             rval.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(rval.getEmail()) + ".png");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -96,7 +99,7 @@ public class Dao implements InitializingBean {
         for (Player p : list) {
             try {
                 p.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(p.getEmail()) + ".png");
-            } catch (NoSuchAlgorithmException e) {
+            } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
@@ -117,8 +120,14 @@ public class Dao implements InitializingBean {
     }
 
     public List<Match> getPendingMatchesByPlayer(String playerId) {
-        return (List<Match>)sqlMapClientTemplate.queryForList("sql.getPendingMatchesByPlayer", playerId);
+        List<Match> matches = (List<Match>)sqlMapClientTemplate.queryForList("sql.getPendingMatchesByPlayer", playerId);
+        return matches;
     }
+
+    public Match getPendingMatch(String pendingId) {
+        return (Match)sqlMapClientTemplate.queryForObject("sql.getPendingMatch", pendingId);
+    }
+
 
     public List<Match> getMatchesByPlayerByDateDesc(String playerId) {
         return (List<Match>)sqlMapClientTemplate.queryForList("sql.getMatchesByPlayerByDateDesc", playerId);
