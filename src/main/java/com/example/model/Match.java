@@ -12,8 +12,26 @@ public class Match extends BaseObject {
     private Player p2;
     private int p1Score;
     private int p2Score;
-    private Date date;
+    private Date date = new Date();
     private String dateString;
+    private String status;
+    private boolean pending;
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Player getP1() {
         return p1;

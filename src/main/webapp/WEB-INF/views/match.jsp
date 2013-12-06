@@ -1,49 +1,48 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:set var="pageTitle" value="TTT - Table Tennis Tracker" scope="request"/>
+<c:set var="pageTitle" value="Lord of the Ping - New Match" scope="request"/>
+<c:set var="pageType" value="match" scope="request"/>
 
 <jsp:include page="./header.jsp"/>
-<form:form commandName="command">
 
-    <div class="container">
-    <h2>New Match</h2>
-		<form class="form-horizontal" role="form">
-			<div class="form-group">
-				<label for="exampleInputEmail1" class="col-sm-2 control-label">Who did you play?</label>
-				<div class="col-sm-10">
-					<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Opponent" autofocus="">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="exampleInputEmail1" class="col-sm-2 control-label">Games You Won</label>
-				<div class="col-sm-10">
-					<select class="form-control">
-						<option>0</option>					
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-					</select>				
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="exampleInputEmail1" class="col-sm-2 control-label">Games You Lost</label>
-				<div class="col-sm-10">
-					<select class="form-control" disabled>
-						<option>0</option>
-					</select>	
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-			</div>	
-		</form>
+<div class="container">
+    <h2>New Match (Best of 5)</h2>
+    <form:form commandName="command" action="/match/save" method="post" class="form-horizontal" role="form">
+        <form:errors path="*" element="div" cssClass="alert alert-error"/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Who did you play?</label>
+            <div class="col-sm-10">
+                <form:input path="email" class="form-control" id="exampleInputEmail1" placeholder="Opponent" spellcheck="false" autocomplete="off" autofocus="" />
+                <script>
+                    $(document).ready(function(){
+                        $("#exampleInputEmail1").typeahead({
+                            source: ${command.emailList}
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1" class="col-sm-2 control-label">Games You Won</label>
+            <div class="col-sm-10">
+                <form:select class="form-control" path="gamesWon" multiple="false" items="${command.values}" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1" class="col-sm-2 control-label">Games You Lost</label>
+            <div class="col-sm-10">
+                <form:select class="form-control" path="gamesLost"  multiple="false" items="${command.values}" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        <form:hidden path="emailList" />
+    </form:form>
 
-
-    </div> <!-- /container -->
-</form:form>
+</div> <!-- /container -->
+<script src="/js/bootstrap-typeahead.js"></script>
 <jsp:include page="./footer.jsp"/>

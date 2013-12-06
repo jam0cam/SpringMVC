@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import com.example.exception.EmailExistsException;
+import com.example.exception.InvalidUserNameOrPasswordException;
 import com.example.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,23 +23,15 @@ public class TTController extends BaseController{
 
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Player getPlayerById (@PathVariable("id") String id) {
+    Player getPlayerById (@PathVariable("id") String id) throws NoSuchAlgorithmException {
         Player rval = dao.getPlayerById(id);
-
         return rval;
     }
 
     @RequestMapping(value = "/players", method = RequestMethod.GET)
     public @ResponseBody
-    List<Player> getPlayers () {
+    List<Player> getPlayers () throws NoSuchAlgorithmException {
         List<Player> rval = dao.getPlayers();
-
-        //blanking out password because we don't need it. This is for autocomplete only
-
-        for (Player p : rval) {
-            p.setPassword("");
-        }
-
         return rval;
     }
 
@@ -52,6 +47,50 @@ public class TTController extends BaseController{
         return match.getId();
     }
 
+    @RequestMapping(value= "/signin", method=RequestMethod.POST)
+    @ResponseBody
+    public Player signin(@RequestBody RegisterUser player) {
+        Player p = dao.getByEmailAndPassword(player.getEmail(), player.getPassword());
+        if (p==null) {
+            throw new InvalidUserNameOrPasswordException();
+        } else {
+            return p;
+        }
+    }
+
+    @RequestMapping(value= "/register", method=RequestMethod.POST)
+    @ResponseBody
+    public Player register(@RequestBody RegisterUser player) {
+        Player p = dao.getByEmail(player.getEmail());
+        if (p==null) {
+            Player newPlayer = player.toPlayer();
+            String id = dao.insertRegistration(newPlayer);
+            newPlayer.setId(id);
+            return newPlayer;
+        } else {
+            throw new EmailExistsException();
+        }
+    }
+
+    @RequestMapping(value= "/confirmMatch", method=RequestMethod.POST)
+    @ResponseBody
+    public HttpResponse confirmMatch(@RequestBody ConfirmMatch confirmation) {
+
+        if (confirmation.isConfirmed()){
+
+        } else {
+            dao.declineMatch(confirmation.getPendingId());
+        }
+
+        return new HttpResponse(200, "OK");
+    }
+
+    @RequestMapping(value = "/pending/player/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Match> getPendingMatches(@PathVariable("id") String id) {
+        List<Match> matches = dao.getPendingMatchesByPlayer(id);
+        return matches;
+    }
 
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -71,6 +110,12 @@ public class TTController extends BaseController{
             }
             match.setDateString(dateFormatter.format(match.getDate()));
 
+            if (match.getP1Score() > match.getP2Score()){
+                match.setStatus("W");
+            } else {
+                match.setStatus("L");
+            }
+
             stats.setGameWins(stats.getGameWins() + match.getP1Score());
             stats.setGameLosses(stats.getGameLosses() + match.getP2Score());
 
@@ -79,6 +124,19 @@ public class TTController extends BaseController{
             } else {
                 stats.setMatchLosses(stats.getMatchLosses() + 1);
             }
+
+
+        }
+
+        stats.setTotalGames(stats.getGameWins() + stats.getGameLosses());
+        stats.setTotalMatches(stats.getMatchWins() + stats.getMatchLosses());
+
+        if (stats.getTotalGames() > 0) {
+            stats.setGameWinPercentage(stats.getGameWins() * 100 /stats.getTotalGames());
+        }
+
+        if (stats.getTotalMatches() > 0) {
+            stats.setMatchWinPercentage(stats.getMatchWins() * 100 / stats.getTotalMatches());
         }
 
         rval.setMatches(matches);
@@ -121,6 +179,8 @@ public class TTController extends BaseController{
 
         return rval;
     }
+
+
 
     /**
      * It inserts the item into the correct spot to produce a decreasing order of winning percentage

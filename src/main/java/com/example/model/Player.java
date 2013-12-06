@@ -1,5 +1,7 @@
 package com.example.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * User: jitse
  * Date: 12/4/13
@@ -9,9 +11,11 @@ public class Player extends BaseObject {
 
     private String email;
     private String password;
+
     private String name;
     private String avatarUrl;
 
+    @JsonIgnore
     public String getEmail() {
         return email;
     }
@@ -20,6 +24,7 @@ public class Player extends BaseObject {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

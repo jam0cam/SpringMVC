@@ -20,6 +20,25 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- JSON format support for Exception -->
+    <bean id="methodHandlerExceptionResolver"
+          class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jacksonMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages" />
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="jacksonMessageConverter"
+          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+
     <bean id="dateFormatter" class="java.text.SimpleDateFormat">
         <constructor-arg value="MM/dd/yyyy"/>
     </bean>

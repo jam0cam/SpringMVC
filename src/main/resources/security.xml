@@ -12,6 +12,7 @@
     <http pattern="/.*service.*" path-type="regex" security="none"/>
     <http auto-config="true" path-type="regex">
         <intercept-url pattern="/profile.*" access="ROLE_USER"/>
+        <intercept-url pattern="/match.*" access="ROLE_USER"/>
 
         <form-login login-page="/"
                     login-processing-url="/login"

@@ -47,9 +47,9 @@ public class LoginController {
 
     @RequestMapping(value = "logoutSuccess", method = RequestMethod.GET)
     public @ResponseBody ModelAndView logoutSuccess () {
-        LoginCommand command = new LoginCommand();
-        command.setMessage("You have been logged out.");
-        return new ModelAndView("login", "command", command);
+//        LoginCommand command = new LoginCommand();
+//        command.setMessage("You have been logged out.");
+        return new ModelAndView("redirect:/home");
     }
 
 }

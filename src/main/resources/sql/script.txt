@@ -14,7 +14,7 @@ CREATE TABLE player (
 	name varchar(16) not null,
 	email varchar(32) not null,
 	password varchar(32) not null,
-	avatar_url varchar(32) null
+	avatar_url varchar(256) null
 );
 
 
@@ -24,6 +24,15 @@ CREATE TABLE matches (
 	p2_id int not null,
 	p1_score int not null,
 	p2_score int not null,
-	date date not null
+	date timestamp not null
 );
 
+CREATE TABLE pending (
+    pending_id int not null auto_increment primary key,
+	p1_id int not null,
+	p2_id int not null,
+	p1_score int not null,
+	p2_score int not null,
+	status varchar(32) not null,
+	date timestamp not null
+);

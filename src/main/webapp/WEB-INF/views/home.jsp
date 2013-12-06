@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:set var="pageTitle" value="TTT - Table Tennis Tracker" scope="request"/>
+<c:set var="pageType" value="home" scope="request"/>
 
 <jsp:include page="./header.jsp"/>
   <form:form commandName="command">

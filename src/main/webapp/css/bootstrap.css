@@ -5302,6 +5302,13 @@ a.thumbnail.active {
   border-radius: 4px;
 }
 
+.alert-error {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+
 .alert h4 {
   margin-top: 0;
   color: inherit;

@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.ProfileCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,14 @@ public class ProfileController extends BaseController{
     public @ResponseBody
     ModelAndView main () {
         ProfileCommand command = ttController.getProfile(myUserContext.getCurrentUser().getId());
+        return new ModelAndView("profile", "command", command);
+    }
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    ModelAndView profileById (@PathVariable("id") String id) {
+        ProfileCommand command = ttController.getProfile(id);
         return new ModelAndView("profile", "command", command);
     }
 }
