@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Time: 7:06 PM
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/signin")
 public class LoginController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class LoginController {
         Player command = myUserContext.getCurrentUser();
         if (command != null) {
             //user is already logged in, redirect to accounts page
-            return new ModelAndView("redirect:/home");
+            return new ModelAndView("redirect:/");
         }
 
         return new ModelAndView("login", "command", new LoginCommand());
@@ -49,7 +49,7 @@ public class LoginController {
     public @ResponseBody ModelAndView logoutSuccess () {
 //        LoginCommand command = new LoginCommand();
 //        command.setMessage("You have been logged out.");
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/");
     }
 
 }

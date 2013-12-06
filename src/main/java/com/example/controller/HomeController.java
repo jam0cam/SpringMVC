@@ -18,7 +18,7 @@ import java.util.List;
  * THIS IS THE LEADERBOARD
  */
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController extends BaseController {
 
     @Autowired TTController ttController;

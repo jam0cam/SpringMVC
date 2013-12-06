@@ -33,17 +33,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand text-hide" href="/home">Lord of the Ping</a>
+            <a class="navbar-brand text-hide" href="/">Lord of the Ping</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
 
                 <c:choose>
                     <c:when test="${pageType=='home'}">
-                        <li class="active"><a href="/home">Leaderboard</a></li>
+                        <li class="active"><a href="/">Leaderboard</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="/home">Leaderboard</a></li>
+                        <li><a href="/">Leaderboard</a></li>
                     </c:otherwise>
                 </c:choose>
 
@@ -83,7 +83,7 @@
                     <li><a id="navLogoutLink" href="/logout">Logout</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li><a href="/">Sign In/Register</a></li>
+                    <li><a href="/signin">Sign In/Register</a></li>
                 </c:otherwise>
             </c:choose>
             </ul>

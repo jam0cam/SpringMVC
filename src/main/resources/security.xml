@@ -15,14 +15,14 @@
         <intercept-url pattern="/match.*" access="ROLE_USER"/>
         <intercept-url pattern="/inbox.*" access="ROLE_USER"/>
 
-        <form-login login-page="/"
+        <form-login login-page="/signin"
                     login-processing-url="/login"
                     username-parameter="email"
                     password-parameter="password"
-                    authentication-failure-url="/failedLogin?error"
-                    default-target-url="/home"/>
+                    authentication-failure-url="/signin/failedLogin?error"
+                    default-target-url="/"/>
         <logout logout-url="/logout"
-                logout-success-url="/logoutSuccess"/>
+                logout-success-url="/signin/logoutSuccess"/>
     </http>
 
 

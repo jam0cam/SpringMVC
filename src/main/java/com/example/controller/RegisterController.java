@@ -53,7 +53,7 @@ public class RegisterController
             Util.trimRegister(command);
             dao.insertRegistration(command);
             myUserContext.authenticateAndSetUser(command);
-            return new ModelAndView("redirect:/home");
+            return new ModelAndView("redirect:/");
         } else {
             return new ModelAndView("register", "command", command);
         }

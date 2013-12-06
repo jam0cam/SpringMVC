@@ -15,7 +15,7 @@
     </form:form>
     <div class="secondary-block">
         <p class="text-center secondary-action"><span>or</span></p>
-        <a href="/" class="btn btn-lg btn-default btn-block">Sign In</a>
+        <a href="/signin" class="btn btn-lg btn-default btn-block">Sign In</a>
     </div>
 </div> <!-- /container -->
 

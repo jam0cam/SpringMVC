@@ -106,6 +106,6 @@ public class MatchController extends BaseController {
         String body = "You have a pending match against " + match.getP1().getName() + ". Please go to the site to confirm. http://zappos-tt.elasticbeanstalk.com/";
         mailSender.sendMail(match.getP2().getEmail(), "Pending match", body);
 
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/");
     }
 }
