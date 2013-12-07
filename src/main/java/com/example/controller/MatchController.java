@@ -101,11 +101,8 @@ public class MatchController extends BaseController {
         match.setP1Score(Integer.parseInt(command.getGamesWon()));
         match.setP2(opponent);
         match.setP2Score(Integer.parseInt(command.getGamesLost()));
-        dao.insertPendingMatch(match);
 
-        String body = "You have a pending match against " + match.getP1().getName() + ". Please go to the site to confirm. http://zappos-tt.elasticbeanstalk.com/";
-        mailSender.sendMail(match.getP2().getEmail(), "Pending match", body);
-
+        ttController.saveMatch(match);
         return new ModelAndView("redirect:/");
     }
 }

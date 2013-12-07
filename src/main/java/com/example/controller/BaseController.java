@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.dao.Dao;
 import com.example.exception.EmailExistsException;
+import com.example.exception.InvalidMatchException;
 import com.example.exception.InvalidUserNameOrPasswordException;
 import com.example.model.HttpResponse;
 import com.example.security.MyUserContext;
@@ -46,6 +47,16 @@ public class BaseController {
         HttpResponse errorResponse = new HttpResponse();
         errorResponse.setMessage("Email already taken");
         errorResponse.setCode(HttpServletResponse.SC_CONFLICT);
+        return errorResponse;
+    }
+
+    @ExceptionHandler({ InvalidMatchException.class })
+    @ResponseBody
+    public HttpResponse invalidMatchException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        HttpResponse errorResponse = new HttpResponse();
+        errorResponse.setMessage("Match information is not valid");
+        errorResponse.setCode(HttpServletResponse.SC_BAD_REQUEST);
         return errorResponse;
     }
 }

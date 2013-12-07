@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.exception.EmailExistsException;
+import com.example.exception.InvalidMatchException;
 import com.example.exception.InvalidUserNameOrPasswordException;
 import com.example.model.*;
 import com.example.postageapp.MailSender;
@@ -44,11 +45,26 @@ public class TTController extends BaseController{
     @ResponseBody
     public String saveMatch(@RequestBody Match match) {
 
+        if (!StringUtils.hasText(match.getP1().getId()) || !StringUtils.hasText(match.getP2().getId())) {
+            throw new InvalidMatchException();
+        }
+
+        if (!StringUtils.hasText(match.getP1().getEmail())) {
+            match.setP1(dao.getPlayerById(match.getP1().getId()));
+        }
+
+        if (!StringUtils.hasText(match.getP2().getEmail())) {
+            match.setP2(dao.getPlayerById(match.getP2().getId()));
+        }
+
         if (StringUtils.hasText(match.getDateString())){
             match.setDate(new Date(match.getDateString()));
         }
 
-        dao.insertMatch(match);
+        dao.insertPendingMatch(match);
+
+        String body = "You have a pending match against " + match.getP1().getName() + ". Please go to the site to confirm. http://zappos-tt.elasticbeanstalk.com/inbox";
+        mailSender.sendMail(match.getP2().getEmail(), "Pending match", body);
         return match.getId();
     }
 
@@ -176,6 +192,11 @@ public class TTController extends BaseController{
         //for each player, get their matches
         for (Player p : players){
             List<Match> matches = dao.getMatchesByPlayer(p.getId());
+
+            if (matches.size() < 5) {
+                //need at least 5 matches
+                continue;
+            }
 
             int wins = 0;
             int losses = 0;
