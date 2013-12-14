@@ -16,6 +16,16 @@ import java.util.List;
 
 public class Util {
 
+    public static String getAvatarUrlFromEmail(String email) {
+        try {
+            return "http://www.gravatar.com/avatar/" + md5(email) + ".png";
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        return "";
+    }
+
     public static String md5(String input) throws NoSuchAlgorithmException {
         String result = input;
         if(input != null) {

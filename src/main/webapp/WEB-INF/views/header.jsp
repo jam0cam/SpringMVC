@@ -22,6 +22,23 @@
 
 <body>
 
+<script>
+
+    $(document).ready(function (){
+        $.ajax({
+            type: 'GET',
+            url: 'http://zappos-tt.elasticbeanstalk.com/tt/pending/count',
+            dataType: 'json',
+            success: finished //Change to this
+        });
+    });
+
+    function finished(result) {
+        $('#inbox').append(result);
+    };
+
+</script>
+
 <!-- Static navbar -->
 <div class="navbar navbar-inverse navbar-static-top" role="navigation">
     <sec:authorize access="authenticated" var="authenticated"/>
@@ -67,10 +84,10 @@
 
                 <c:choose>
                     <c:when test="${pageType=='inbox'}">
-                        <li class="active"><a href="/inbox">Inbox</a></li>
+                        <li class="active"><a href="/inbox">Inbox <span class="badge badge-location" id="inbox"></span></a></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="/inbox">Inbox</a></li>
+                        <li><a href="/inbox">Inbox <span class="badge badge-location" id="inbox"></span></a></li>
                     </c:otherwise>
                 </c:choose>
 

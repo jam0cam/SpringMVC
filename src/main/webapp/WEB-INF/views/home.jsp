@@ -6,8 +6,7 @@
 
 <jsp:include page="./header.jsp"/>
   <form:form commandName="command">
-
-    <div class="container">
+    <div class="container full">
 		<h2>Leaderboard</h2>
 		<div class="table-responsive">
 			<table class="table table-striped">
@@ -32,7 +31,13 @@
 			</table>
 		</div>
 
+
+        <div class="bottom-right">
+            <p>Download the Android App <a href="https://www.dropbox.com/s/vcrphd1rbqu4rkq/lotp-release.apk">Here!</a></p>
+        </div>
     </div> <!-- /container -->
+
+
   </form:form>
 
 <jsp:include page="./footer.jsp"/>

@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <img alt="180x180" height="180" width="180" class="img-circle" src="${command.player.avatarUrl}">
+                    <img alt="180x180" height="180" width="180" class="img-circle" src="${command.player.avatarUrl}?size=180">
                     <h3 class="text-center">${command.player.name}</h3>
                 </div>
                 <div class="panel-heading">

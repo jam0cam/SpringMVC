@@ -85,7 +85,7 @@ public class Dao implements InitializingBean {
     public Player getByEmail(String email) {
         Player rval = (Player)sqlMapClientTemplate.queryForObject("sql.getByEmail", email);
         try {
-            rval.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(rval.getEmail()) + ".png");
+            rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -98,7 +98,7 @@ public class Dao implements InitializingBean {
 
         for (Player p : list) {
             try {
-                p.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(p.getEmail()) + ".png");
+                p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -121,6 +121,11 @@ public class Dao implements InitializingBean {
 
     public List<Match> getPendingMatchesByPlayer(String playerId) {
         List<Match> matches = (List<Match>)sqlMapClientTemplate.queryForList("sql.getPendingMatchesByPlayer", playerId);
+
+        //we need to fill out the avatars for player 2s only
+        for (Match m : matches) {
+            m.getP2().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP2().getEmail()));
+        }
         return matches;
     }
 

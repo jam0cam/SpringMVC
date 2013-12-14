@@ -129,6 +129,23 @@ public class TTController extends BaseController{
         return matches;
     }
 
+    @RequestMapping(value = "/pending/count", method = RequestMethod.GET)
+    @ResponseBody
+    public String getPendingMatchesCount() {
+        String id = "-3243";
+        try{
+          id = myUserContext.getCurrentUser().getId();
+        } catch (Exception e){}
+
+        List<Match> matches = dao.getPendingMatchesByPlayer(id);
+
+        if (!matches.isEmpty()) {
+            return Integer.toString(matches.size());
+        } else {
+            return "";
+        }
+    }
+
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ProfileCommand getProfile(@PathVariable("id") String id) {
@@ -202,11 +219,17 @@ public class TTController extends BaseController{
             int losses = 0;
             for (Match match : matches) {
                 if (match.getP1().getId().equals(p.getId())) {
-                    wins += match.getP1Score();
-                    losses += match.getP2Score();
+                    if (match.getP1Score() > match.getP2Score()) {
+                        wins ++;
+                    } else {
+                        losses++;
+                    }
                 } else {
-                    wins += match.getP2Score();
-                    losses += match.getP1Score();
+                    if (match.getP2Score() > match.getP1Score()) {
+                        wins ++;
+                    } else {
+                        losses++;
+                    }
                 }
             }
 
