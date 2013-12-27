@@ -40,7 +40,7 @@
           class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
 
     <bean id="dateFormatter" class="java.text.SimpleDateFormat">
-        <constructor-arg value="MM/dd/yyyy"/>
+        <constructor-arg value="MM/dd/yyyy HH:mm:ss z"/>
     </bean>
 
     <!-- Jackson Mapper -->

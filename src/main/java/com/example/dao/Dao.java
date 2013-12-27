@@ -11,9 +11,9 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  */
@@ -122,9 +122,10 @@ public class Dao implements InitializingBean {
     public List<Match> getPendingMatchesByPlayer(String playerId) {
         List<Match> matches = (List<Match>)sqlMapClientTemplate.queryForList("sql.getPendingMatchesByPlayer", playerId);
 
-        //we need to fill out the avatars for player 2s only
+        //we need to fill out the avatars for player 1s only. Player 2 will see the pending match, and therefore
+        //will want to know who player 1 is
         for (Match m : matches) {
-            m.getP2().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP2().getEmail()));
+            m.getP1().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP1().getEmail()));
         }
         return matches;
     }

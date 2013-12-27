@@ -20,7 +20,7 @@
 
                 <c:forEach var="item" items="${command.pendingMatches}" varStatus="loop">
                     <tr>
-                        <td><img alt="180x180" height="180" width="180" class="img-circle" src="${item.p2.avatarUrl}"></td>
+                        <td><img alt="180x180" height="180" width="180" class="img-circle" src="${item.p1.avatarUrl}"></td>
                         <td><a href="/profile/${item.p1.id}">${item.p1.name}</a>
                             <p class="small">
                                 <c:choose>

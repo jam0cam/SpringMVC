@@ -179,6 +179,7 @@ public class TTController extends BaseController{
                 stats.setMatchLosses(stats.getMatchLosses() + 1);
             }
 
+            match.getP2().setAvatarUrl(Util.getAvatarUrlFromEmail(match.getP2().getEmail()));
 
         }
 

@@ -27,7 +27,7 @@
     $(document).ready(function (){
         $.ajax({
             type: 'GET',
-            url: 'http://zappos-tt.elasticbeanstalk.com/tt/pending/count',
+            url: 'http://www.lordoftheping.com/tt/pending/count',
             dataType: 'json',
             success: finished //Change to this
         });

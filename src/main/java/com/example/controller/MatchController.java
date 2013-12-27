@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: jitse
@@ -102,6 +101,11 @@ public class MatchController extends BaseController {
         match.setP2(opponent);
         match.setP2Score(Integer.parseInt(command.getGamesLost()));
 
+
+        //hack to subtract 8 hours due to time zone differences with AWS
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -8);
+        match.setDate(cal.getTime());
         ttController.saveMatch(match);
         return new ModelAndView("redirect:/");
     }
