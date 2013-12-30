@@ -14,6 +14,24 @@ public class Player extends BaseObject {
 
     private String name;
     private String avatarUrl;
+    private int ranking = 1200;
+    private double sigma = 400.00;
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+
+    public double getSigma() {
+        return sigma;
+    }
+
+    public void setSigma(double sigma) {
+        this.sigma = sigma;
+    }
 
     public String getEmail() {
         return email;

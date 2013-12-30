@@ -16,6 +16,8 @@
         <result property="email" column="email" />
         <result property="password" column="password" />
         <result property="avatarUrl" column="avatar_url" />
+        <result property="ranking" column="ranking" />
+        <result property="sigma" column="sigma" />
     </resultMap>
 
     <resultMap id="matchMap" class="com.example.model.Match">
@@ -57,9 +59,9 @@
 
     <insert id="insertRegistration" parameterClass="com.example.model.Player">
         insert into player
-        (name, email, password, avatar_url)
+        (name, email, password, avatar_url, ranking, sigma)
         values
-        (#name#, #email#, md5(#password#), #avatarUrl#)
+        (#name#, #email#, md5(#password#), #avatarUrl#, 1200, 400.00)
         <selectKey resultClass="java.lang.String"  keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -106,11 +108,18 @@
         select * from matches where p1_id = #playerId# OR  p2_id = #playerId# order by date desc
     </select>
 
+    <select id="getAllMatches" resultMap="sql.matchMap">
+        select * from matches order by date asc
+    </select>
+
     <update id="declineMatch" parameterClass="java.lang.String">
         update pending set status = 'declined' where pending_id = #pendingId#
     </update>
 
-
-
+    <update id="updatePlayerRating" parameterClass="HashMap">
+        update player
+        set ranking = #ranking#, sigma = #sigma#
+        where player_id = #playerId#
+    </update>
 
 </sqlMap>

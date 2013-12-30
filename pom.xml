@@ -121,6 +121,15 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>JSkills</groupId>
+            <artifactId>JSkills</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/src/lib/JSkills.jar</systemPath>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>SpringMVC</finalName>

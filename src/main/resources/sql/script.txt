@@ -36,3 +36,12 @@ CREATE TABLE pending (
 	status varchar(32) not null,
 	date timestamp not null
 );
+
+
+ALTER TABLE player ADD ranking int not null;
+ALTER TABLE player ADD sigma decimal(6,2) not null;
+
+update player set ranking = 1200, sigma = 400.00;
+
+
+

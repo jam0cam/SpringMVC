@@ -11,9 +11,9 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  */
@@ -137,6 +137,19 @@ public class Dao implements InitializingBean {
 
     public List<Match> getMatchesByPlayerByDateDesc(String playerId) {
         return (List<Match>)sqlMapClientTemplate.queryForList("sql.getMatchesByPlayerByDateDesc", playerId);
+    }
+
+    public List<Match> getAllMatches() {
+        return (List<Match>)sqlMapClientTemplate.queryForList("sql.getAllMatches");
+    }
+
+    public void updatePlayerRating(String playerId, String ranking, String sigma) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("playerId", playerId);
+        params.put("ranking", ranking);
+        params.put("sigma", sigma);
+
+        sqlMapClientTemplate.update("sql.updatePlayerRating", params);
     }
 
     public void afterPropertiesSet() throws Exception {

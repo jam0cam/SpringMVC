@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,8 @@ public class TTController extends BaseController{
 
     @Autowired
     private MailSender mailSender;
+
+    SimpleDateFormat shortDateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -108,10 +111,16 @@ public class TTController extends BaseController{
         if (confirmation.isConfirmed()){
             dao.deletePending(confirmation.getPendingId());
             dao.insertMatch(pendingMatch);
+
+            Ranking.calculateRanking(pendingMatch);
+
+            dao.updatePlayerRating(pendingMatch.getP1().getId(), Integer.toString(pendingMatch.getP1().getRanking()), Double.toString(pendingMatch.getP1().getSigma()));
+            dao.updatePlayerRating(pendingMatch.getP2().getId(), Integer.toString(pendingMatch.getP2().getRanking()), Double.toString(pendingMatch.getP2().getSigma()));
+
         } else {
             //on a decline, we send an email to player "1" notifying that player 2 declined.
-            Player player1 = dao.getPlayerById(pendingMatch.getP1().getId());
-            Player player2 = dao.getPlayerById(pendingMatch.getP2().getId());
+            Player player1 = pendingMatch.getP1();
+            Player player2 = pendingMatch.getP2();
 
             if (player1 != null && player2 != null) {
                 mailSender.sendMail(player1.getEmail(), "match declined", "Your match with " + player2.getName() + " has been declined.");
@@ -162,7 +171,7 @@ public class TTController extends BaseController{
                 //we want to swap the info and always make p1 = player passed in
                 match.swapPlayer();
             }
-            match.setDateString(dateFormatter.format(match.getDate()));
+            match.setDateString(shortDateFormatter.format(match.getDate()));
 
             if (match.getP1Score() > match.getP2Score()){
                 match.setStatus("W");
@@ -244,6 +253,28 @@ public class TTController extends BaseController{
         }
 
         return rval;
+    }
+
+    /**
+     * This is meant to re-calculate the rankings starting from the first game
+     */
+    @RequestMapping(value = "/resetRankings", method = RequestMethod.GET)
+    @ResponseBody
+    public String initializeRankgings() {
+        List<Match> matches = dao.getAllMatches();
+
+        for (Match m : matches) {
+            //since we are looping through a bunch of matches in the DB, the player ratings could've changed. Reload them.
+            m.setP1(dao.getPlayerById(m.getP1().getId()));
+            m.setP2(dao.getPlayerById(m.getP2().getId()));
+
+            Ranking.calculateRanking(m);
+
+            dao.updatePlayerRating(m.getP1().getId(), Integer.toString(m.getP1().getRanking()), Double.toString(m.getP1().getSigma()));
+            dao.updatePlayerRating(m.getP2().getId(), Integer.toString(m.getP2().getRanking()), Double.toString(m.getP2().getSigma()));
+        }
+
+        return "Rankings Recalculated";
     }
 
 
