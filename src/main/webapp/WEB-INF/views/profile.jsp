@@ -2,7 +2,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:set var="pageTitle" value="Lord of the Ping - Profile" scope="request"/>
-<c:set var="pageType" value="profile" scope="request"/>
+<form:form commandName="command">
+    <c:set var="pageType" value="profile" scope="request"/>
+    <c:set var="ownProfile" value="${command.ownProfile}" scope="request"/>
+</form:form>
+
 
 <jsp:include page="./header.jsp"/>
 <form:form commandName="command">
@@ -15,6 +19,7 @@
                 <div class="panel-body">
                     <img alt="180x180" height="180" width="180" class="img-circle" src="${command.player.avatarUrl}?size=180">
                     <h3 class="text-center">${command.player.name}</h3>
+                    <h4>(${command.player.ranking})</h4>
                 </div>
                 <div class="panel-heading">
                     <h3 class="panel-title">Matches <span class="badge pull-right">${command.stats.totalMatches}</span></h3>

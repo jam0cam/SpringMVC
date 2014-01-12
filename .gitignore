@@ -1,3 +1,9 @@
 .idea*
 *.iml
 target/*
+lib/.DS_Store
+lib/jskills/.DS_Store
+lib/jskills/jskills-lib/.DS_Store
+lib/jskills/jskills-lib/1.0/jskills-lib-1.0.jar
+lib/jskills/jskills-lib/1.0/jskills/jskills-lib/1.0/jskills-lib-1.0.pom
+lib/jskills/jskills-lib/1.0/jskills/jskills-lib/maven-metadata-local.xml

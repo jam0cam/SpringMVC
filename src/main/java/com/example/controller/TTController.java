@@ -293,13 +293,13 @@ public class TTController extends BaseController{
         } else {
             for (int i=0; i<items.size(); i++) {
                 LeaderBoardItem lbi = items.get(i);
-                if (lbi.getWinningPercentage() < item.getWinningPercentage()) {
+                if (lbi.getPlayer().getRanking() < item.getPlayer().getRanking()) {
                     items.add(i, item);
                     return;
                 }
             }
 
-            //if it gets here that means the item we are adding has the lowest percentage
+            //if it gets here that means the item we are adding has the lowest ranking
             items.add(item);
         }
     }

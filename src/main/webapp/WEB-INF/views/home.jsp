@@ -13,6 +13,7 @@
 				<thead>
 					<tr>
 						<th></th>
+                        <th style="width: 80px">Rating</th>
 						<th>Name</th>
 						<th>W</th>
 						<th>L</th>
@@ -22,6 +23,7 @@
                 <c:forEach var="item" items="${command}" varStatus="loop">
                     <tr>
                         <td>${loop.index+1}</td>
+                        <td>${item.player.ranking}</td>
                         <td><a href="/profile/${item.player.id}">${item.player.name}</a></td>
                         <td>${item.matchWins}</td>
                         <td>${item.matchLosses}</td>

@@ -11,6 +11,15 @@ public class ProfileCommand {
 
     private Player player;
     private Stats stats;
+    private boolean ownProfile;
+
+    public boolean isOwnProfile() {
+        return ownProfile;
+    }
+
+    public void setOwnProfile(boolean ownProfile) {
+        this.ownProfile = ownProfile;
+    }
 
     /**
      * matches are setup in a way that p1 is always the passed in player.

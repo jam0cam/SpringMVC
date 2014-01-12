@@ -17,6 +17,16 @@ public class Player extends BaseObject {
     private int ranking = 1200;
     private double sigma = 400.00;
 
+    private boolean ownProfile = false;
+
+    public boolean isOwnProfile() {
+        return ownProfile;
+    }
+
+    public void setOwnProfile(boolean ownProfile) {
+        this.ownProfile = ownProfile;
+    }
+
     public int getRanking() {
         return ranking;
     }

@@ -26,6 +26,7 @@ public class ProfileController extends BaseController{
     public @ResponseBody
     ModelAndView main () {
         ProfileCommand command = ttController.getProfile(myUserContext.getCurrentUser().getId());
+        command.setOwnProfile(true);
         return new ModelAndView("profile", "command", command);
     }
 
@@ -34,6 +35,7 @@ public class ProfileController extends BaseController{
     public @ResponseBody
     ModelAndView profileById (@PathVariable("id") String id) {
         ProfileCommand command = ttController.getProfile(id);
+        command.setOwnProfile(false);
         return new ModelAndView("profile", "command", command);
     }
 }

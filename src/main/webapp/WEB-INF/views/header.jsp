@@ -74,7 +74,7 @@
                 </c:choose>
 
                 <c:choose>
-                    <c:when test="${pageType=='profile'}">
+                    <c:when test="${pageType=='profile' && ownProfile == 'true'}">
                         <li class="active"><a href="/profile/myProfile">Profile</a></li>
                     </c:when>
                     <c:otherwise>
@@ -96,8 +96,8 @@
             <ul class="nav navbar-nav navbar-right">
             <c:choose>
                 <c:when test="${authenticated}">
-                    <li id="greeting"><a>Hi <sec:authentication property="principal.name" /> !</a></li>
-                    <li><a id="navLogoutLink" href="/logout">Logout</a></li>
+                    <li id="greeting"><a>Hi <sec:authentication property="principal.name" />!</a></li>
+                    <li><a id="navLo1goutLink" href="/logout">Logout</a></li>
                 </c:when>
                 <c:otherwise>
                     <li><a href="/signin">Sign In/Register</a></li>
