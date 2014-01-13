@@ -220,8 +220,8 @@ public class TTController extends BaseController{
         for (Player p : players){
             List<Match> matches = dao.getMatchesByPlayer(p.getId());
 
-            if (matches.size() < 5) {
-                //need at least 5 matches
+            if (matches.isEmpty()) {
+                //need at least 1 matches
                 continue;
             }
 

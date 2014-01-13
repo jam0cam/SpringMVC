@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.Match;
 import com.example.model.MatchCommand;
+import com.example.model.MatchSuccessCommand;
 import com.example.model.Player;
 import com.example.postageapp.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,10 @@ public class MatchController extends BaseController {
         cal.add(Calendar.HOUR, -8);
         match.setDate(cal.getTime());
         ttController.saveMatch(match);
-        return new ModelAndView("redirect:/");
+
+
+        MatchSuccessCommand rval = new MatchSuccessCommand();
+        rval.setName(opponent.getName());
+        return new ModelAndView("success", "command", rval);
     }
 }
