@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.exception.EmailExistsException;
 import com.example.exception.InvalidMatchException;
 import com.example.exception.InvalidUserNameOrPasswordException;
+import com.example.gmail.Gmail;
 import com.example.model.*;
 import com.example.postageapp.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +67,9 @@ public class TTController extends BaseController{
 
         dao.insertPendingMatch(match);
 
-        String body = "You have a pending match against " + match.getP1().getName() + ". Please go to the site to confirm. http://zappos-tt.elasticbeanstalk.com/inbox";
-        mailSender.sendMail(match.getP2().getEmail(), "Pending match", body);
+        String body = "You have a pending match against " + match.getP1().getName() + ". Please go to the site to confirm. http://www.lordoftheping.com/inbox";
+//        mailSender.sendMail(match.getP2().getEmail(), "Pending match", body);
+        Gmail.sendMail(match.getP2().getEmail(), "Pending match", body);
         return match.getId();
     }
 
@@ -123,7 +125,8 @@ public class TTController extends BaseController{
             Player player2 = pendingMatch.getP2();
 
             if (player1 != null && player2 != null) {
-                mailSender.sendMail(player1.getEmail(), "match declined", "Your match with " + player2.getName() + " has been declined.");
+//                mailSender.sendMail(player1.getEmail(), "match declined", "Your match with " + player2.getName() + " has been declined.");
+                Gmail.sendMail(player1.getEmail(), "match declined", "Your match with " + player2.getName() + " has been declined.");
             }
             dao.declineMatch(confirmation.getPendingId());
         }

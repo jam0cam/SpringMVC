@@ -152,6 +152,22 @@ public class Dao implements InitializingBean {
         sqlMapClientTemplate.update("sql.updatePlayerRating", params);
     }
 
+    public Player getPlayerFromHash(String hash) {
+        return (Player)sqlMapClientTemplate.queryForObject("sql.getPlayerFromHash", hash);
+    }
+
+    public void updatePlayerPassword(String password, String hash) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("password", password);
+        params.put("hash", hash);
+
+        sqlMapClientTemplate.update("sql.updatePlayerPassword", params);
+    }
+
+    public void deletePasswordReset(String hash) {
+        sqlMapClientTemplate.delete("sql.deletePasswordReset", hash);
+    }
+
     public void afterPropertiesSet() throws Exception {
         this.sqlMapClientTemplate = new SqlMapClientTemplate(sqlMapClient);
     }

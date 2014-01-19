@@ -122,4 +122,21 @@
         where player_id = #playerId#
     </update>
 
+
+    <select id="getPlayerFromHash" parameterClass="java.lang.String" resultMap="sql.playerMap">
+        select p.* from player p
+        join password_reset r on p.player_id = r.player_id
+        where reset_hash = #hash#
+    </select>
+
+    <update id="updatePlayerPassword" parameterClass="HashMap">
+        update player p
+        join password_reset r on r.player_id = p.player_id
+        set password = md5(#password#)
+        where reset_hash = #hash#
+    </update>
+
+    <delete id="deletePasswordReset" parameterClass="java.lang.String">
+        delete from password_reset where reset_hash = #hash#
+    </delete>
 </sqlMap>

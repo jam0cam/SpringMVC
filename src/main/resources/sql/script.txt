@@ -44,4 +44,8 @@ ALTER TABLE player ADD sigma decimal(6,2) not null;
 update player set ranking = 1200, sigma = 400.00;
 
 
+CREATE TABLE password_reset (
+	player_id int primary key,
+	reset_hash varchar(16)
+);
 
